@@ -50,29 +50,29 @@ const staggerItem: Variants = {
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  // const [isScrolled, setIsScrolled] = useState(false);
   
   const pathname = usePathname();
   const { openContactForm } = useContactForm();
 
   // Memoized Theme Detection
   const isHome = pathname === "/";
-  const isLightMode = useMemo(() => !isHome || isScrolled || isOpen, [isHome, isScrolled, isOpen]);
+  // const isLightMode = useMemo(() => !isHome || isScrolled || isOpen, [isHome, isScrolled, isOpen]);
 
   // Optimized Handlers
   const toggleMenu = useCallback(() => setIsOpen(prev => !prev), []);
   const closeMenu = useCallback(() => setIsOpen(false), []);
 
   // Performance-friendly Scroll Listener
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollThreshold = window.scrollY > 20;
-      if (isScrolled !== scrollThreshold) setIsScrolled(scrollThreshold);
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const scrollThreshold = window.scrollY > 20;
+  //     if (isScrolled !== scrollThreshold) setIsScrolled(scrollThreshold);
+  //   };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isScrolled]);
+  //   window.addEventListener("scroll", handleScroll, { passive: true });
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [isScrolled]);
 
   // Lock Body Scroll on Menu Open (Accessibility)
   useEffect(() => {
@@ -84,13 +84,11 @@ export default function Header() {
       <header
         role="banner"
         className={`fixed top-0 left-0 w-full ${STACKING_CONTEXT.HEADER} ${THEME.TRANSITION} ${
-          isLightMode 
-            ? "bg-white/90 backdrop-blur-xl border-b border-zinc-100 shadow-sm" 
-            : "bg-transparent border-transparent"
+         "bg-white/90 backdrop-blur-xl border-b border-zinc-100 shadow-sm" 
         }`}
       >
         <div className={`flex items-center justify-between px-6 mx-auto ${THEME.MAX_WIDTH} ${THEME.TRANSITION} ${
-          isHome && !isScrolled ? "h-20 lg:h-28" : "h-16 lg:h-20"
+           "h-16 lg:h-20"
         }`}>
           
           {/* BRANDING: Prevent Layout Shift with fixed aspect ratio container */}
@@ -98,7 +96,7 @@ export default function Header() {
             <Link href="/" aria-label="LeadNex Home" onClick={closeMenu}>
               <div className="relative w-28 lg:w-40 h-12">
                 <Image
-                  src={isLightMode ? "/images/logo_black.webp" : "/images/logo_white.webp"}
+                  src="/images/logo_black.webp"
                   alt="" // Decorative since text is in aria-label
                   fill
                   className={`object-contain ${THEME.TRANSITION}`}
@@ -117,7 +115,7 @@ export default function Header() {
                   key={item.id}
                   href={item.url}
                   className={`text-[11px] font-semibold uppercase tracking-[0.25em] transition-all hover:text-[#ec1313] active:scale-95 ${
-                    isLightMode ? "text-zinc-900" : "text-white"
+                    "text-zinc-900" 
                   }`}
                 >
                   {item.title}
@@ -143,9 +141,7 @@ export default function Header() {
               className={`lg:hidden relative ${STACKING_CONTEXT.CONTROLS} h-11 w-11 flex items-center justify-center rounded-full transition-all active:scale-90 ${
                 isOpen
                   ? "bg-zinc-900 text-white" 
-                  : isLightMode 
-                    ? "bg-zinc-100 text-zinc-900" 
-                    : "bg-white/10 text-white backdrop-blur-md"
+                  : "bg-zinc-100 text-zinc-900" 
               }`}
             >
               {isOpen ? <X size={20} /> : <Menu size={20} />}

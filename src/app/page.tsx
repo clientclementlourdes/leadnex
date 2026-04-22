@@ -559,16 +559,24 @@
 //   );
 // }
 
-
 "use client";
 
 import { motion, Variants } from "framer-motion";
 import Image from "next/image";
-import { ArrowRight, Mail, CheckCircle2, Link as LinkIcon, ShieldCheck } from "lucide-react";
+import {
+  ArrowRight,
+  Mail,
+  CheckCircle2,
+  Link as LinkIcon,
+  ShieldCheck,
+  LucideIcon,
+  Orbit,
+} from "lucide-react";
 import Link from "next/link";
 
 import Button from "@/ui/button"; // Assuming your existing UI component
 import { useContactForm } from "./ContextProvider";
+import { specializations } from "@/config";
 
 // -------- Animation Orchestration --------
 const container: Variants = {
@@ -594,53 +602,82 @@ export default function LeadNexLanding() {
   return (
     <main className="w-full min-h-screen bg-white font-sans overflow-x-hidden selection:bg-zinc-900 selection:text-white">
       {/* 1. HERO SECTION */}
-      <section className="relative w-full mx-auto px-4 pt-4 pb-20 md:pb-32">
+      <section className="relative w-full mx-auto px-4 sm:px-6 pt-28 md:pt-20 pb-16 md:pb-32 overflow-x-hidden">
         <motion.div
           variants={container}
           initial="hidden"
           animate="visible"
-          className="relative overflow-hidden rounded-2xl bg-zinc-950 min-h-[85vh] flex flex-col justify-center items-center text-center p-6 md:p-20"
+          // Changed min-h to be more flexible on mobile; used gap-16 for better breathing room
+          className="relative overflow-hidden rounded-2xl bg-transparent min-h-[auto] lg:min-h-[85vh] grid grid-cols-1 lg:grid-cols-2 items-center p-4 md:p-12 lg:p-20 gap-12 lg:gap-16"
         >
-          {/* Background Texture */}
-          <div className="absolute inset-0 z-0 opacity-40">
-            <div 
-              className="absolute inset-0" 
-              style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #ec1313 1px, transparent 0)`, backgroundSize: '40px 40px' }} 
+          {/* Background Texture - Optimized for performance */}
+          <div className="absolute inset-0 z-0 opacity-15 pointer-events-none">
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `radial-gradient(circle at 2px 2px, #ec1313 1px, transparent 0)`,
+                backgroundSize: "32px 32px", // Slightly tighter dots for mobile
+              }}
             />
-            <div className="absolute inset-0 bg-linear-to-b from-zinc-950 via-transparent to-zinc-950" />
           </div>
 
-          <div className="relative z-10 max-w-5xl space-y-8">
-            <motion.div variants={faderUp} className="flex justify-center items-center gap-3">
-              <span className="h-px w-10 bg-[#ec1313]" />
-              <span className="text-white text-[10px] font-bold uppercase tracking-[0.6em]">
+          {/* Left Side: Content */}
+          <div className="relative z-10 w-full space-y-6 md:space-y-8 text-left order-2 lg:order-1">
+            <motion.div
+              variants={faderUp}
+              className="flex justify-start items-center gap-3"
+            >
+              <span className="h-px w-8 md:w-10 bg-[#ec1313]" />
+              <span className="text-[#ec1313] text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] md:tracking-[0.6em]">
                 Est. 2026 / Leadership Initiative
               </span>
-              <span className="h-px w-10 bg-[#ec1313]" />
             </motion.div>
 
-            <motion.h1 
+            <motion.h1
               variants={faderUp}
-              className="text-white text-6xl md:text-8xl lg:text-[10rem] font-black tracking-tighter leading-[0.85] uppercase"
+              className="text-[#ec1313] text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[9rem] font-black tracking-tighter leading-[0.9] uppercase whitespace-nowrap"
             >
-              Lead<span className="italic font-extralight text-zinc-500">Nex.</span>
+              Lead
+              <span className="italic font-extralight text-zinc-400 inline-block">
+                Nex.
+              </span>
             </motion.h1>
 
-            <motion.p 
+            <motion.p
               variants={faderUp}
-              className="text-zinc-400 text-lg md:text-2xl max-w-2xl mx-auto font-light leading-relaxed italic"
+              className="text-zinc-500 text-base md:text-lg lg:text-xl font-medium leading-relaxed italic max-w-xl"
             >
-              Guiding emerging young leaders in political, professional, and academic spaces through uncompromising excellence.
+              Guiding emerging young leaders in political, professional, and
+              academic spaces through uncompromising excellence.
             </motion.p>
 
-            <motion.div variants={faderUp} className="pt-8">
-              <Button 
-                label="Request Confidential Consultation" 
+            <motion.div variants={faderUp} className="pt-2 md:pt-4">
+              <Button
+                label="Request Confidential Consultation"
                 onClick={openContactForm}
-                className="bg-[#ec1313] hover:bg-white hover:text-zinc-950 transition-all duration-500 rounded-full px-10 py-6 text-sm font-bold tracking-widest uppercase"
+                // Added w-full for mobile devices so the button is easier to tap
+                className="w-full sm:w-auto bg-[#ec1313] text-white hover:bg-zinc-950 hover:text-white transition-all duration-500 rounded-full px-8 md:px-10 py-5 md:py-6 text-xs md:text-sm font-bold tracking-widest uppercase shadow-xl shadow-red-900/20"
               />
             </motion.div>
           </div>
+
+          {/* Right Side: Image Container */}
+          <motion.div
+            variants={faderUp}
+            // Responsive height: smaller on mobile, taking more space on desktop
+            className="relative z-10 w-full h-[350px] sm:h-[450px] lg:h-full min-h-[350px] lg:min-h-[500px] rounded-xl overflow-hidden border border-[#ec1313]/10 order-1 lg:order-2"
+          >
+            <Image
+              src="/images/hero.webp"
+              alt="Strategic Leadership"
+              fill
+              priority
+              className="object-cover opacity-90 transition-transform duration-[7s] hover:scale-105"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+            {/* Enhanced Overlay for depth */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#ec1313]/30 via-transparent to-transparent lg:bg-gradient-to-r" />
+          </motion.div>
         </motion.div>
       </section>
 
@@ -651,58 +688,102 @@ export default function LeadNexLanding() {
             Capabilities
           </span>
           <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-zinc-900 uppercase">
-            Areas of <span className="italic font-extralight text-zinc-400">Work.</span>
+            Areas of{" "}
+            <span className="italic font-extralight text-zinc-400">Work.</span>
           </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          <WorkCard 
-            title="Political Mentorship"
-            desc="Confidential, founder-led programme for emerging political leaders seeking strategic advice and structural presence."
-          />
-          <WorkCard 
-            title="Personal Branding"
-            desc="Amplifying the voices of public personalities and influencers striving to reach the next level of global recognition."
-          />
-          <WorkCard 
-            title="Strategic Guidance"
-            desc="Customized sessions for individuals navigating critical life and career decisions in academic or corporate environments."
-          />
+          {specializations.map((item) => (
+            <WorkCard
+              key={item.id}
+              title={item.title}
+              desc={item.desc}
+              Icon={item.icon}
+              href={item.sourcePath}
+            />
+          ))}
         </div>
       </section>
 
       {/* 3. FOUNDER SECTION */}
-      <section className="bg-zinc-50 border-y border-zinc-100 py-24 px-6" id="about">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
-          <div className="relative w-full lg:w-1/2 aspect-square max-w-md group">
-            <div className="absolute -bottom-6 -left-6 w-full h-full border border-zinc-200 group-hover:-translate-x-2 group-hover:translate-y-2 transition-transform duration-700" />
-            <div className="relative h-full w-full overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-1000 bg-zinc-200">
-               {/* Replace with actual founder image */}
-               <div className="w-full h-full bg-zinc-300 animate-pulse" /> 
-            </div>
-            <div className="absolute -bottom-4 -right-4 bg-[#ec1313] p-6 text-white">
-              <p className="text-xs font-bold uppercase tracking-widest leading-none">Founder</p>
-              <p className="text-2xl font-black italic tracking-tighter">John Majel P.</p>
+      <section
+        className="bg-zinc-50 border-y border-zinc-100 py-16 md:py-24 px-6 overflow-hidden"
+        id="about"
+      >
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-24">
+          {/* Image Column - Handling overflow and relative positioning carefully */}
+          <div className="relative w-full lg:w-1/2 flex justify-center">
+            <div className="relative w-full max-w-[320px] xs:max-w-[400px] md:max-w-[500px] group">
+              {/* Back Accent Border - Hidden on very small screens to avoid layout shift, or sized relative */}
+              <div className="absolute -bottom-4 -left-4 md:-bottom-6 md:-left-6 w-full h-full border border-zinc-200 group-hover:-translate-x-1 group-hover:translate-y-1 transition-transform duration-700 ease-out" />
+
+              {/* Image Container */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1 }}
+                className="relative aspect-[3/4] w-full overflow-hidden bg-zinc-100 shadow-2xl z-10"
+              >
+                <Image
+                  src="/images/john_majel_p.webp"
+                  alt="John Majel P - Founder & CEO"
+                  fill
+                  priority
+                  className="object-cover transition-all duration-1000 ease-in-out"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                <div className="absolute inset-0 pointer-events-none" />
+              </motion.div>
+
+              {/* Founder Badge - Adjusted padding and font size for mobile */}
+              <div className="absolute -bottom-2 -right-2 md:-bottom-4 md:-right-4 bg-[#ec1313] p-4 md:p-6 text-white shadow-xl z-20 min-w-[160px] md:min-w-[200px]">
+                <p className="text-[8px] md:text-[10px] font-bold uppercase tracking-[0.4em] leading-none mb-1 md:mb-2 opacity-80">
+                  Founder
+                </p>
+                <p className="text-xl md:text-2xl font-black italic tracking-tighter">
+                  John Majel P
+                  <span className="not-italic text-zinc-900">.</span>
+                </p>
+              </div>
             </div>
           </div>
 
-          <div className="flex-1 space-y-8">
-            <span className="text-[#ec1313] text-xs font-bold uppercase tracking-[0.4em] block">
+          {/* Content Column */}
+          <div className="flex-1 space-y-6 md:space-y-8 text-center lg:text-left mt-8 lg:mt-0">
+            <span className="text-[#ec1313] text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] block">
               The Visionary
             </span>
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tighter text-zinc-900 leading-tight">
-              A Legacy of <span className="italic font-extralight text-zinc-300">Mentorship.</span>
+
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tighter text-zinc-900 leading-[1.1]">
+              A Legacy of{" "}
+              <span className="italic font-extralight text-zinc-300 block sm:inline">
+                Mentorship.
+              </span>
             </h2>
-            <p className="text-xl text-zinc-500 font-light leading-relaxed">
-              LeadNex was founded by <strong className="text-zinc-950 font-medium">John Majel P</strong>, a University Gold Medallist and competitive exams trainer with extensive experience shaping civil service aspirants and professionals.
+
+            <p className="text-lg md:text-xl text-zinc-500 font-light leading-relaxed max-w-2xl mx-auto lg:mx-0">
+              LeadNex was founded by{" "}
+              <strong className="text-zinc-950 font-medium">
+                John Majel P
+              </strong>
+              , a University Gold Medallist and competitive exams trainer with
+              extensive experience shaping civil service aspirants and
+              professionals.
             </p>
-            <Link 
-              href="https://linkedin.com" 
-              className="inline-flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-900 group"
-            >
-              <span className="border-b border-[#ec1313]/30 group-hover:border-[#ec1313] transition-all">Verify Credentials</span>
-              <LinkIcon size={14} className="text-[#ec1313]" />
-            </Link>
+
+            <div className="pt-4">
+              <Link
+                href="https://linkedin.com"
+                className="inline-flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-900 group"
+              >
+                <span className="border-b border-[#ec1313]/30 group-hover:border-[#ec1313] transition-all">
+                  Verify Credentials
+                </span>
+                <LinkIcon size={14} className="text-[#ec1313]" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -711,21 +792,27 @@ export default function LeadNexLanding() {
       <section className="py-24 px-6 max-w-7xl mx-auto">
         <div className="bg-zinc-950 rounded-3xl p-8 md:p-20 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-1/2 h-full bg-[radial-gradient(circle_at_top_right,#ec131310,transparent_70%)]" />
-          
+
           <h2 className="text-white text-3xl md:text-5xl font-bold mb-16 tracking-tighter">
-            Current <span className="italic font-extralight text-zinc-500">Engagements.</span>
+            Current{" "}
+            <span className="italic font-extralight text-zinc-500">
+              Engagements.
+            </span>
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 relative z-10">
             {[
-              "Institutional career guidance sessions across India",
-              "Direct mentorship for young professionals",
-              "Global branding for Social Media Influencers",
-              "Confidential political advisory roles"
+              "Regular educational and career guidance sessions in institutions across India",
+              "Mentorship for students & young professionals",
+              "Branding and rebranding of Social Media Influencers",
+              "Confidential engagements with emerging political voices",
             ].map((item, idx) => (
               <div key={idx} className="flex items-center gap-6 group">
                 <div className="size-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-[#ec1313] group-hover:border-[#ec1313] transition-all duration-500">
-                  <CheckCircle2 size={18} className="text-[#ec1313] group-hover:text-white" />
+                  <CheckCircle2
+                    size={18}
+                    className="text-[#ec1313] group-hover:text-white"
+                  />
                 </div>
                 <p className="text-zinc-400 text-lg font-light group-hover:text-white transition-colors">
                   {item}
@@ -748,15 +835,19 @@ export default function LeadNexLanding() {
           </div>
 
           <h2 className="text-4xl md:text-6xl font-bold tracking-tighter text-zinc-900">
-            Ready to <span className="italic font-extralight text-[#ec1313]">Step Forward.</span>
+            Ready to{" "}
+            <span className="italic font-extralight text-[#ec1313]">
+              Step Forward.
+            </span>
           </h2>
-          
+
           <p className="text-zinc-500 text-lg font-light leading-relaxed">
-            Individuals and institutions seeking high-impact consultation may request a briefing.
+            Individuals and institutions seeking high-impact consultation may
+            request a briefing.
           </p>
 
-          <Button 
-            label="Request Confidential Consultation" 
+          <Button
+            label="Request Confidential Consultation"
             onClick={openContactForm}
             className="w-full sm:w-auto bg-zinc-950 hover:bg-[#ec1313] text-white transition-all duration-500 rounded-full px-12 h-16 text-xs font-bold tracking-widest uppercase"
           />
@@ -764,14 +855,25 @@ export default function LeadNexLanding() {
           <div className="pt-12 flex flex-col items-center gap-6 opacity-40">
             <div className="flex items-center gap-4">
               <div className="h-px w-8 bg-zinc-300" />
-              <ShieldCheck size={16} />
-              <p className="text-[9px] font-bold uppercase tracking-[0.4em]">Protocol: Strictly Confidential</p>
+              <Orbit size={16} />
+              <p className="text-[9px] font-bold uppercase tracking-[0.4em]">
+                Reach out through our official channels
+              </p>
               <div className="h-px w-8 bg-zinc-300" />
             </div>
             <div className="flex gap-8 text-[10px] font-bold uppercase tracking-widest">
-              <Link href="mailto:contact@leadnex.com" className="hover:text-[#ec1313]">Gmail</Link>
-              <Link href="#" className="hover:text-[#ec1313]">LinkedIn</Link>
-              <Link href="#" className="hover:text-[#ec1313]">Instagram</Link>
+              <Link
+                href="mailto:contact@leadnex.com"
+                className="hover:text-[#ec1313]"
+              >
+                Gmail
+              </Link>
+              <Link href="#" className="hover:text-[#ec1313]">
+                LinkedIn
+              </Link>
+              <Link href="#" className="hover:text-[#ec1313]">
+                Instagram
+              </Link>
             </div>
           </div>
         </div>
@@ -782,31 +884,55 @@ export default function LeadNexLanding() {
 
 /** * SUB-COMPONENTS */
 
-function WorkCard({ title, desc }: { title: string; desc: string }) {
+interface WorkCardProps {
+  title: string;
+  desc: string;
+  Icon: LucideIcon;
+  href: string; // Added href prop to handle the destination
+}
+
+function WorkCard({ title, desc, Icon, href }: WorkCardProps) {
   return (
-    <motion.div 
-      whileHover={{ y: -5 }}
-      className="group p-10 bg-white border border-zinc-100 relative overflow-hidden transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)]"
-    >
-      <div className="absolute left-0 top-0 h-full w-[2px] bg-[#ec1313] scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top" />
-      
-      <div className="mb-8 text-zinc-300 group-hover:text-[#ec1313] transition-colors duration-500">
-        <div className="size-12 rounded-lg bg-zinc-50 flex items-center justify-center">
-          <ArrowRight size={20} className="-rotate-45 group-hover:rotate-0 transition-transform duration-500" />
+    <Link href={href} className="block h-full">
+      <motion.div
+        whileHover={{ y: -5 }}
+        className="group p-10 bg-white border border-zinc-100 relative h-full flex flex-col overflow-hidden transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] cursor-pointer"
+      >
+        {/* Red Accent Line */}
+        <div className="absolute left-0 top-0 h-full w-[2px] bg-[#ec1313] scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top" />
+
+        {/* Icon Header */}
+        <div className="flex justify-between items-start mb-8">
+          <div className="size-12 rounded-lg bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:text-[#ec1313] transition-colors duration-500">
+            <Icon size={24} strokeWidth={1.5} />
+          </div>
+          <div className="text-zinc-200 group-hover:text-[#ec1313] transition-colors duration-500">
+            <ArrowRight
+              size={20}
+              className="-rotate-45 group-hover:rotate-0 transition-transform duration-500"
+            />
+          </div>
         </div>
-      </div>
 
-      <h3 className="text-xl font-bold text-zinc-900 uppercase tracking-tight mb-4">
-        {title}<span className="text-[#ec1313]">.</span>
-      </h3>
-      
-      <p className="text-sm text-zinc-500 font-light leading-relaxed italic mb-8">
-        {desc}
-      </p>
+        {/* Content */}
+        <div className="flex-grow">
+          <h3 className="text-xl font-bold text-zinc-900 uppercase tracking-tight mb-4">
+            {title}
+            <span className="text-[#ec1313]">.</span>
+          </h3>
 
-      <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400 group-hover:text-zinc-900 transition-colors">
-        Learn More
-      </span>
-    </motion.div>
+          <p className="text-sm text-zinc-500 font-light leading-relaxed italic mb-8">
+            {desc}
+          </p>
+        </div>
+
+        {/* Footer - Now visually acts as the link trigger */}
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400 group-hover:text-zinc-900 transition-colors">
+            Learn More
+          </span>
+        </div>
+      </motion.div>
+    </Link>
   );
 }

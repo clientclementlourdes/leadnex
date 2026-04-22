@@ -99,7 +99,7 @@ const LeadNexSessionsPage = () => {
       className="bg-white text-zinc-900 font-sans selection:bg-[#ec1313] selection:text-white antialiased overflow-x-hidden"
     >
       {/* --- HERO SECTION --- */}
-      <section className="relative w-full pt-16 pb-20 md:pt-32 md:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden">
+      <section className="relative w-full pt-28 pb-20 md:pt-32 md:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden">
         <motion.div
           style={{ x: watermarkX }}
           className="absolute top-10 right-10 text-zinc-50 font-black text-[12vw] select-none pointer-events-none leading-none uppercase z-0"
@@ -116,7 +116,7 @@ const LeadNexSessionsPage = () => {
           >
             <motion.div variants={fadeInUp} className="flex items-center gap-4">
               <span className="text-[#ec1313] text-[10px] md:text-xs font-bold uppercase tracking-[0.5em] block border-l-2 border-[#ec1313] pl-4">
-                Guidance / Motivational Protocol
+                Guidance & Motivational Sessions
               </span>
             </motion.div>
 
@@ -125,8 +125,8 @@ const LeadNexSessionsPage = () => {
                 variants={maskReveal}
                 className="text-6xl sm:text-8xl md:text-9xl font-black tracking-tighter text-zinc-900 leading-[0.85] uppercase"
               >
-                Clarity <br />
-                <span className="italic font-light text-zinc-400">Impact.</span>
+                Focussed <br />
+                <span className="italic font-light text-zinc-400">Growth.</span>
               </motion.h1>
             </div>
 
@@ -134,9 +134,7 @@ const LeadNexSessionsPage = () => {
               variants={fadeInUp}
               className="text-zinc-500 text-base md:text-xl font-light leading-relaxed max-w-xl"
             >
-              Designed for students and young professionals at a crossroads in
-              life. We calibrate path-finding strategies for those who seek
-              purpose beyond academic and corporate metrics.
+              LeadNex offers guidance and motivational sessions designed for students and young professionals who are at a crossroads in life and career decisions.
             </motion.p>
 
             <div className="space-y-12">
@@ -229,12 +227,11 @@ const LeadNexSessionsPage = () => {
             </div>
 
             <p className="text-zinc-600 font-normal leading-relaxed text-xl max-w-xl">
-              Founder & CEO of LeadNex.{" "}
+              Founder & CEO of LeadNex, is an accomplished competitive exams trainer and am{" "}
               <span className="text-zinc-900 font-medium">
                 University Gold Medallist
               </span>{" "}
-              with a distinguished record in mentoring civil services aspirants
-              and competitive exam candidates nationwide.
+              with extensive experience mentoring students and civil services aspirants.
             </p>
 
             <div className="pt-4">
@@ -246,7 +243,7 @@ const LeadNexSessionsPage = () => {
                   <Linkedin className="text-[#ec1313]" size={20} />
                 </div>
                 <span className="border-b border-transparent group-hover:border-zinc-900 transition-all pb-1">
-                  Professional Dossier
+                  LinkedIn Profile
                 </span>
               </a>
             </div>
@@ -388,98 +385,50 @@ const PhaseCard = ({ phase, idx }: any) => {
       ref={cardRef}
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ delay: idx * 0.1, duration: 1, ease: easing }}
-      className={`group flex flex-col justify-between p-12 transition-all duration-700 min-h-[500px] border border-zinc-100
+      transition={{ delay: idx * 0.1, duration: 1, ease: "easeOut" }} // Standardized easing
+      className={`group flex flex-col p-10 md:p-12 transition-all duration-700 min-h-[400px] border border-zinc-100
         ${
           phase.featured
-            ? "bg-[#ec1313] text-white border-[#ec1313] shadow-2xl" // Red background, white text for featured
-            : "bg-white text-zinc-900 hover:border-[#ec1313]/20" // White background for normal
+            ? "bg-[#ec1313] text-white border-[#ec1313] shadow-2xl"
+            : "bg-white text-zinc-900 hover:border-[#ec1313]/20"
         }`}
     >
-      <div className="space-y-10">
-        <div className="flex justify-between items-center">
-          <div
-            className={
-              phase.featured
-                ? "text-white" // Icon color for red background
-                : "text-zinc-300 group-hover:text-[#ec1313] transition-colors duration-500" // Icon color for white background
-            }
-          >
-            {phase.icon}
-          </div>
-          <span
-            className={`text-[10px] font-mono ${
-              phase.featured
-                ? "text-zinc-300" // UNIT_id color for red background
-                : "text-zinc-300" // UNIT_id color for white background
-            }`}
-          >
-            UNIT_{phase.id}
-          </span>
+      <div className="flex flex-col h-full">
+        {/* Top Section: Icon Only */}
+        <div
+          className={`mb-12 ${
+            phase.featured
+              ? "text-white"
+              : "text-zinc-300 group-hover:text-[#ec1313] transition-colors duration-500"
+          }`}
+        >
+          {phase.icon}
         </div>
+
+        {/* Content Section */}
         <div className="space-y-6">
-          <h3 className="text-4xl font-bold uppercase tracking-tight">
+          <h3 className="text-3xl md:text-4xl font-bold uppercase tracking-tight leading-none">
             {phase.title}
           </h3>
           <p
-            className={`text-sm font-light leading-relaxed ${
+            className={`text-sm md:text-base font-light leading-relaxed max-w-[280px] ${
               phase.featured
-                ? "text-zinc-100" // Description color for red background
-                : "text-zinc-500" // Description color for white background
+                ? "text-zinc-100/90"
+                : "text-zinc-500"
             }`}
           >
             {phase.description}
           </p>
         </div>
-      </div>
 
-      <div className="pt-10 space-y-6">
-        {phase.metrics.map((m: any, i: number) => (
-          <div key={i} className="flex flex-col gap-3">
-            <div className="flex justify-between items-end">
-              <span
-                className={`text-[9px] font-black uppercase tracking-widest ${
-                  phase.featured
-                    ? "text-zinc-200" // Metric label color for red background
-                    : "text-zinc-400" // Metric label color for white background
-                }`}
-              >
-                {m.label}
-              </span>
-              <span
-                className={`text-xs font-mono ${
-                  phase.featured
-                    ? "text-white" // Metric value color for red background
-                    : "text-zinc-900" // Metric value color for white background
-                }`}
-              >
-                {m.value}
-              </span>
-            </div>
-            <div
-              className={`h-[2px] w-full relative overflow-hidden ${
-                phase.featured
-                  ? "bg-zinc-700" // Metric bar background color for red background
-                  : "bg-zinc-50" // Metric bar background color for white background
-              }`}
-            >
-              <motion.div
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-                transition={{
-                  duration: 1.5,
-                  delay: 0.5 + idx * 0.1,
-                  ease: [0.65, 0, 0.35, 1],
-                }}
-                className={`absolute top-0 left-0 h-full w-full origin-left ${
-                  phase.featured
-                    ? "bg-white" // Metric bar fill color for red background
-                    : "bg-[#ec1313]" // Metric bar fill color for white background
-                }`}
-              />
-            </div>
-          </div>
-        ))}
+        {/* Visual Spacer to maintain card height intent */}
+        <div className="mt-auto pt-10">
+          <div 
+            className={`h-[1px] w-12 transition-all duration-700 ${
+              phase.featured ? "bg-white/30" : "bg-zinc-100 group-hover:w-20 group-hover:bg-[#ec1313]/30"
+            }`} 
+          />
+        </div>
       </div>
     </motion.div>
   );
