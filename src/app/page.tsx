@@ -602,83 +602,97 @@ export default function LeadNexLanding() {
   return (
     <main className="w-full min-h-screen bg-white font-sans overflow-x-hidden selection:bg-zinc-900 selection:text-white">
       {/* 1. HERO SECTION */}
-      <section className="relative w-full mx-auto px-4 sm:px-6 pt-28 md:pt-20 pb-16 md:pb-32 overflow-x-hidden">
+      <section className="relative w-full overflow-x-hidden px-4 py-12 sm:px-6 md:py-20 lg:py-32">
         <motion.div
           variants={container}
           initial="hidden"
           animate="visible"
-          // Changed min-h to be more flexible on mobile; used gap-16 for better breathing room
-          className="relative overflow-hidden rounded-2xl bg-transparent min-h-[auto] lg:min-h-[85vh] grid grid-cols-1 lg:grid-cols-2 items-center p-4 md:p-12 lg:p-20 gap-12 lg:gap-16"
+          className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16 xl:gap-24"
         >
-          {/* Background Texture - Optimized for performance */}
-          <div className="absolute inset-0 z-0 opacity-15 pointer-events-none">
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `radial-gradient(circle at 2px 2px, #ec1313 1px, transparent 0)`,
-                backgroundSize: "32px 32px", // Slightly tighter dots for mobile
-              }}
-            />
-          </div>
-
-          {/* Left Side: Content */}
-          <div className="relative z-10 w-full space-y-6 md:space-y-8 text-left order-2 lg:order-1">
-            <motion.div
-              variants={faderUp}
-              className="flex justify-start items-center gap-3"
-            >
-              <span className="h-px w-8 md:w-10 bg-[#ec1313]" />
-              <span className="text-[#ec1313] text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] md:tracking-[0.6em]">
+          {/* Left Side: Content 
+          Note: order-2 on mobile puts text below image for better visual flow
+        */}
+          <div className="relative z-10 order-2 flex flex-col space-y-6 md:space-y-10 lg:order-1">
+            {/* Subheading Label */}
+            <motion.div variants={faderUp} className="flex items-center gap-4">
+              <span className="h-px w-12 bg-[#ec1313]" />
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ec1313] md:text-xs">
                 Est. 2026 / Leadership Initiative
               </span>
             </motion.div>
 
+            {/* Main Heading 
+            Refactored: Removed whitespace-nowrap and used responsive font sizes 
+            that won't break the layout on iPhone SE/mini devices.
+          */}
             <motion.h1
               variants={faderUp}
-              className="text-[#ec1313] text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[9rem] font-black tracking-tighter leading-[0.9] uppercase whitespace-nowrap"
+              className="text-5xl font-black leading-[0.85] tracking-tighter text-[#ec1313] sm:text-7xl md:text-8xl lg:text-8xl xl:text-[10rem] uppercase"
             >
               Lead
-              <span className="italic font-extralight text-zinc-400 inline-block">
+              <span className="block italic font-extralight text-zinc-400 sm:inline-block">
                 Nex.
               </span>
             </motion.h1>
 
             <motion.p
               variants={faderUp}
-              className="text-zinc-500 text-base md:text-lg lg:text-xl font-medium leading-relaxed italic max-w-xl"
+              className="max-w-xl text-lg font-medium italic leading-relaxed text-zinc-500 md:text-xl lg:text-2xl"
             >
               Guiding emerging young leaders in political, professional, and
               academic spaces through uncompromising excellence.
             </motion.p>
 
-            <motion.div variants={faderUp} className="pt-2 md:pt-4">
-              <Button
-                label="Request Confidential Consultation"
+            <motion.div variants={faderUp} className="pt-4">
+              <button
                 onClick={openContactForm}
-                // Added w-full for mobile devices so the button is easier to tap
-                className="w-full sm:w-auto bg-[#ec1313] text-white hover:bg-zinc-950 hover:text-white transition-all duration-500 rounded-full px-8 md:px-10 py-5 md:py-6 text-xs md:text-sm font-bold tracking-widest uppercase shadow-xl shadow-red-900/20"
-              />
+                className="group relative w-full overflow-hidden rounded-full bg-[#ec1313] px-10 py-5 text-sm font-bold uppercase tracking-widest text-white transition-all duration-300 hover:bg-zinc-950 sm:w-auto md:py-6"
+              >
+                <span className="relative z-10">
+                  Request Confidential Consultation
+                </span>
+                <div className="absolute inset-0 translate-y-full bg-zinc-950 transition-transform duration-300 group-hover:translate-y-0" />
+              </button>
             </motion.div>
           </div>
 
-          {/* Right Side: Image Container */}
+          {/* Right Side: Visual Aspect-Ratio Container */}
           <motion.div
             variants={faderUp}
-            // Responsive height: smaller on mobile, taking more space on desktop
-            className="relative z-10 w-full h-[350px] sm:h-[450px] lg:h-full min-h-[350px] lg:min-h-[500px] rounded-xl overflow-hidden border border-[#ec1313]/10 order-1 lg:order-2"
+            className="relative z-10 order-1 lg:order-2"
           >
-            <Image
-              src="/images/hero.webp"
-              alt="Strategic Leadership"
-              fill
-              priority
-              className="object-cover opacity-90 transition-transform duration-[7s] hover:scale-105"
-              sizes="(max-width: 768px) 100vw, 50vw"
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-[#ec1313]/10 bg-zinc-100 sm:aspect-square lg:aspect-[3/4]">
+              <Image
+                src="/images/hero.webp"
+                alt="Strategic Leadership"
+                fill
+                priority
+                className="object-cover opacity-90 transition-transform duration-[10s] ease-out hover:scale-110"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+              />
+              {/* Sophisticated Gradient Mask */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+            </div>
+
+            {/* Decorative Background Dots (contained within parent to prevent bleed) */}
+            <div
+              className="absolute -bottom-6 -right-6 -z-10 h-32 w-32 opacity-20"
+              style={{
+                backgroundImage: `radial-gradient(#ec1313 1px, transparent 0)`,
+                backgroundSize: "16px 16px",
+              }}
             />
-            {/* Enhanced Overlay for depth */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#ec1313]/30 via-transparent to-transparent lg:bg-gradient-to-r" />
           </motion.div>
         </motion.div>
+
+        {/* Global Background Texture */}
+        <div
+          className="absolute inset-0 -z-10 opacity-[0.03] pointer-events-none"
+          style={{
+            backgroundImage: `radial-gradient(circle at 2px 2px, #ec1313 1px, transparent 0)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
       </section>
 
       {/* 2. AREAS OF WORK */}
