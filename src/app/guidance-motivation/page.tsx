@@ -586,7 +586,7 @@ const LeadNexSessions = () => {
             <div className="absolute inset-0 border border-zinc-200 translate-x-3 translate-y-3 md:translate-x-6 md:translate-y-6 z-0" />
             <div className="relative z-10 aspect-[4/5] sm:aspect-[3/4] lg:aspect-[4/5] bg-zinc-100 overflow-hidden shadow-2xl group">
               <img
-                src="/images/john_majel_p.webp"
+                src="/images/guidance&Motivation.webp"
                 alt="Guidance Session"
                 className="w-full h-full object-cover transition-all duration-[3s] scale-110 group-hover:scale-100"
               />
