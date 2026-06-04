@@ -1,4 +1,4 @@
-import { Megaphone, MicVocal, Languages, ShieldCheck, Compass, Fingerprint, Globe, Lock } from "lucide-react";
+import { Megaphone, ShieldCheck, Compass } from "lucide-react";
 
 export const navigations = [
   {
@@ -14,7 +14,7 @@ export const navigations = [
   {
     id: 3,
     title: "About Us",
-    url: "/about_us",
+    url: "/about-us",
   },
 ];
 
@@ -25,7 +25,7 @@ export const specializations = [
     icon: Megaphone,
     desc: "Confidential, founder-led programme for political leaders seeking strategic advice.",
     imagePath: "/images/political_leadership.webp",
-    sourcePath: "political_leadership",
+    sourcePath: "political-leadership",
   },
   {
     id: 2,
@@ -33,7 +33,7 @@ export const specializations = [
     icon: ShieldCheck,
     desc: "Amplifying the voices of public personalities and influencers striving to reach the next level of recognition.",
     imagePath: "/images/leadership_communication.webp", 
-    sourcePath: "personal_branding",
+    sourcePath: "personal-branding",
   },
   {
     id: 3,
@@ -83,25 +83,6 @@ export const products = [
     origin: "Kanyakumari Fisherman Special",
     price: 1500,
     img: "/images/prawn_pickle.webp",
-  },
-];
-
-
-export const operationalBadges = [
-  {
-    icon: Fingerprint,
-    title: "Sovereignty",
-    desc: "Economic independence framework for artisans.",
-  },
-  {
-    icon: Globe,
-    title: "Heritage",
-    desc: "Traditional methods meeting global delivery standards.",
-  },
-  {
-    icon: Lock,
-    title: "Discretion",
-    desc: "Confidential handling of intellectual property.",
   },
 ];
 

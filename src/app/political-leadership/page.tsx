@@ -209,18 +209,13 @@ export default function PoliticalMentorshipPage() {
 
               {/* Minimal Bottom Content */}
               <div className="absolute bottom-8 left-8 right-8">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                  </span>
-                  <p className="text-[10px] font-bold text-white/90 uppercase tracking-[0.2em]">
-                    Live Status
-                  </p>
-                </div>
-                <p className="text-sm font-light text-white/80 max-w-[280px] leading-relaxed">
-                  Advising high-potential candidates across 14 key
-                  constituencies.
+                <div className="w-6 h-[2px] bg-red-500 mb-4" />{" "}
+                {/* Accent line */}
+                <p className="text-lg font-medium text-white max-w-[280px] leading-snug mb-1">
+                  "Strategy defines the outcome."
+                </p>
+                <p className="text-xs font-light text-white/60">
+                  Emporing the next generation of political leadership.
                 </p>
               </div>
             </div>

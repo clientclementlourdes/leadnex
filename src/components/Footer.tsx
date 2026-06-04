@@ -1,13 +1,12 @@
-import { Globe, Mail, Linkedin, Twitter, Phone } from "lucide-react";
+import { Globe, Mail, Linkedin, Instagram, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const practiceAreas = [
-  "Political Strategy",
-  "Executive Presence",
-  "Diplomatic English",
-  "Crisis Management",
+  { title: "Political Mentorship", ref: "/political-leadership" },
+  { title: "Personal Branding", ref: "/personal-branding" },
+  { title: "Guidance & Motivation", ref: "/guidance-motivation" },
 ];
 
 const Footer = () => {
@@ -37,17 +36,17 @@ const Footer = () => {
 
             <div className="flex gap-4 mt-4">
               {[
-                { icon: <Linkedin size={18} />, label: "LinkedIn" },
-                { icon: <Twitter size={18} />, label: "Twitter" },
-                { icon: <Mail size={18} />, label: "Email" },
-              ].map((social, idx) => (
+                { icon: <Linkedin size={18} />, label: "LinkedIn", href: "#" },
+                { icon: <Instagram size={18} />, label: "Instagram", href: "https://www.instagram.com/leadnex_?igsh=MW9lcjMwOWhob3g0dA==" },
+                // { icon: <Mail size={18} />, label: "Email", href: "#" },
+              ].map(({ icon, label, href }, idx) => (
                 <a
                   key={idx}
                   className="size-10 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-[#ec1313] hover:border-[#ec1313] transition-all duration-300"
-                  href="#"
-                  aria-label={social.label}
+                  href={href}
+                  aria-label={label}
                 >
-                  {social.icon}
+                  {icon}
                 </a>
               ))}
             </div>
@@ -61,13 +60,13 @@ const Footer = () => {
                 Practice Areas
               </h5>
               <ul className="space-y-3">
-                {practiceAreas.map((item) => (
-                  <li key={item}>
+                {practiceAreas.map(({title, ref}) => (
+                  <li key={ref}>
                     <a
                       className="text-sm font-light text-zinc-500 hover:text-[#ec1313] transition-colors duration-300"
-                      href="#"
+                      href={ref}
                     >
-                      {item}
+                      {title}
                     </a>
                   </li>
                 ))}
