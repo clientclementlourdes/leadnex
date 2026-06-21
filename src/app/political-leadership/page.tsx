@@ -13,9 +13,11 @@ import {
   ArrowRight,
   Layout,
   LucideIcon,
+  Tag,
 } from "lucide-react";
 import Button from "@/ui/button";
 import { useContactForm } from "../ContextProvider";
+import { CheckoutButton } from "@/components/CheckoutButton";
 
 /**
  * ANIMATION CONFIGURATION
@@ -45,7 +47,6 @@ const maskReveal: Variants = {
   },
 };
 
-const handleInvitation = () => console.log("Invitation Triggered");
 
 // 1. Define a clear interface for your data
 interface Pillar {
@@ -75,6 +76,12 @@ const pillars: Pillar[] = [
     tag: "EXECUTIVE_SESSIONS",
   },
 ];
+
+const PROGRAM_PRICING = {
+  originalPrice: "₹25,000",
+  currentPrice: "₹15,000",
+  discountPercent: "40% OFF",
+};
 
 export default function PoliticalMentorshipPage() {
   const { openContactForm } = useContactForm();
@@ -164,7 +171,40 @@ export default function PoliticalMentorshipPage() {
               ))}
             </motion.div>
 
-            <Button label="Request Invitation" className="mt-4" />
+            {/* Senior Pricing & Conversion Stack */}
+            <motion.div
+              variants={fadeInUp}
+              className="mt-8 p-6 bg-zinc-50 border border-zinc-100 rounded-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 text-left max-w-xl mx-auto lg:mx-0"
+            >
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400">
+                    Enrollment Access Fee
+                  </span>
+                  <span className="text-[9px] bg-[#ec1313]/10 text-[#ec1313] font-extrabold px-1.5 py-0.5 rounded flex items-center gap-1">
+                    <Tag size={8} /> {PROGRAM_PRICING.discountPercent}
+                  </span>
+                </div>
+                <div className="flex items-baseline gap-3">
+                  <span className="text-3xl font-black text-zinc-950 tracking-tight">
+                    {PROGRAM_PRICING.currentPrice}
+                  </span>
+                  <span className="text-base font-medium text-zinc-400 line-through opacity-70">
+                    {PROGRAM_PRICING.originalPrice}
+                  </span>
+                </div>
+              </div>
+
+              <div className="shrink-0">
+                <CheckoutButton
+                  courseId="POLITICAL_LEADERSHIP"
+                  amount={15000}
+                  courseName="Leadnex Political Mentorship"
+                  description="Exclusive Fortnightly Intelligence & Strategic Advisory Access"
+                  size="sm"
+                />
+              </div>
+            </motion.div>
           </motion.div>
 
           {/* Hero Image - Responsive Visibility */}
@@ -296,15 +336,6 @@ export default function PoliticalMentorshipPage() {
                       {pillar.tag}
                     </span>
                   </div>
-
-                  {/* CTA Button styled like the Blueprint look */}
-                  <button className="w-full mt-4 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-zinc-900 group-hover:text-[#ec1313] transition-all">
-                    <span>Explore Pillar</span>
-                    <ArrowRight
-                      size={14}
-                      className="group-hover:translate-x-1 transition-transform"
-                    />
-                  </button>
                 </div>
               </motion.div>
             ))}

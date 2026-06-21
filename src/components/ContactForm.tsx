@@ -11,7 +11,9 @@ import {
   Phone,
   Briefcase,
   FileText,
+  Loader2,
 } from "lucide-react";
+import { showErrorAlert, showSuccessAlert } from "@/utils/notifications";
 
 interface PopupProps {
   isOpen: boolean;
@@ -27,6 +29,8 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
     description: "",
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const services = [
     "Political Leadership",
     "Executive Presence",
@@ -34,10 +38,52 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
     "Crisis Advisory",
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Strategic Dossier Dispatched:", formData);
-    onClose();
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        showErrorAlert(
+          "Submission Failed",
+          data.error || "Failed to submit your inquiry. Please try again.",
+        );
+        return;
+      }
+
+      showSuccessAlert(
+        "Inquiry Submitted!",
+        "We've received your submission. Check your email for confirmation.",
+      );
+
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        contact: "",
+        service: "Political Leadership",
+        description: "",
+      });
+
+      // Close after brief delay
+      setTimeout(() => onClose(), 2000);
+    } catch (err: any) {
+      console.error("[CONTACT_FORM_CLIENT_ERROR]", err);
+      showErrorAlert(
+        "Connection Error",
+        "Failed to connect to server. Please check your connection and try again.",
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -223,13 +269,23 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
               {/* Submit Action */}
               <button
                 type="submit"
-                className="w-full h-16 bg-[#ec1313] hover:bg-[#c11010] text-white text-[10px] font-bold uppercase tracking-[0.4em] flex items-center justify-center gap-3 transition-all duration-300 group shadow-lg shadow-[#ec1313]/10"
+                disabled={isLoading}
+                className="w-full h-16 bg-[#ec1313] hover:bg-[#c11010] disabled:bg-[#ec1313]/50 disabled:cursor-not-allowed text-white text-[10px] font-bold uppercase tracking-[0.4em] flex items-center justify-center gap-3 transition-all duration-300 group shadow-lg shadow-[#ec1313]/10"
               >
-                Dispatch Dossier
-                <ArrowRight
-                  size={16}
-                  className="group-hover:translate-x-1 transition-transform"
-                />
+                {isLoading ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    Dispatch Dossier
+                    <ArrowRight
+                      size={16}
+                      className="group-hover:translate-x-1 transition-transform"
+                    />
+                  </>
+                )}
               </button>
             </form>
           </motion.div>

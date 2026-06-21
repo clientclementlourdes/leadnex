@@ -17,7 +17,9 @@ import {
   ArrowRight,
   Sparkles,
   MessageSquare,
+  Tag,
 } from "lucide-react";
+import { CheckoutButton } from "@/components/CheckoutButton";
 
 // --- ANIMATION CONFIG ---
 const easing = [0.16, 1, 0.3, 1] as const;
@@ -69,6 +71,16 @@ const engagementPhases = [
     icon: <Building2 size={24} />,
   },
 ];
+
+/**
+ * Pricing configuration for Guidance & Motivational Sessions package
+ * Discount: 44% OFF (₹9,000 → ₹5,000)
+ */
+const PROGRAM_PRICING = {
+  originalPrice: "₹9,000",
+  currentPrice: "₹5,000",
+  discountPercent: "44% OFF",
+};
 
 const LeadNexSessions = () => {
   const containerRef = useRef(null);
@@ -127,14 +139,39 @@ const LeadNexSessions = () => {
               and career decisions.
             </motion.p>
 
-            <motion.div variants={fadeInUp}>
-              <button className="group relative flex w-full sm:w-auto items-center justify-center gap-4 bg-zinc-900 text-white px-8 py-5 font-bold uppercase text-xs tracking-widest hover:bg-[#ec1313] transition-all duration-500">
-                Explore Sessions
-                <ArrowRight
-                  size={16}
-                  className="group-hover:translate-x-2 transition-transform"
+            {/* Pricing & Conversion Stack */}
+            <motion.div
+              variants={fadeInUp}
+              className="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 text-left"
+            >
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400">
+                    Enrollment Access Fee
+                  </span>
+                  <span className="text-[9px] bg-[#ec1313]/10 text-[#ec1313] font-extrabold px-1.5 py-0.5 rounded flex items-center gap-1">
+                    <Tag size={8} /> {PROGRAM_PRICING.discountPercent}
+                  </span>
+                </div>
+                <div className="flex items-baseline gap-3">
+                  <span className="text-3xl font-black text-zinc-950 tracking-tight">
+                    {PROGRAM_PRICING.currentPrice}
+                  </span>
+                  <span className="text-base font-medium text-zinc-400 line-through opacity-70">
+                    {PROGRAM_PRICING.originalPrice}
+                  </span>
+                </div>
+              </div>
+
+              <div className="shrink-0">
+                <CheckoutButton
+                  courseId="GUIDANCE_MOTIVATION"
+                  amount={5000}
+                  courseName="Guidance & Motivational Sessions Package"
+                  description="Professional guidance and motivational program for students and young professionals"
+                  size="sm"
                 />
-              </button>
+              </div>
             </motion.div>
           </motion.div>
 
@@ -265,54 +302,75 @@ const LeadNexSessions = () => {
       </section>
 
       {/* --- CTA SECTION --- */}
-      <section className="py-24 md:py-48 bg-zinc-50/50 px-6">
-        <div className="max-w-5xl mx-auto text-center">
-          <motion.div
+      <section className="relative overflow-hidden bg-zinc-50 py-24 md:py-40 px-6 border-t border-zinc-100">
+      {/* Structural Design Accents: Subtle background grid detail */}
+      <div className="absolute inset-0 bg-[radial-gradient(#e4e4e7_1px,transparent_1px)] [background-size:24px_24px] opacity-60 pointer-events-none" />
+      
+      <div className="relative max-w-4xl mx-auto text-center z-10">
+        {/* Decorative Brand Header Emblem */}
+        <div className="flex justify-center mb-8">
+          <div className="relative size-14 md:size-16 rounded-full bg-white flex items-center justify-center shadow-sm border border-zinc-200/80">
+            <div className="absolute inset-0 rounded-full bg-[#ec1313]/5 animate-ping opacity-75" />
+            <MessageSquare size={22} className="text-[#ec1313] relative z-10" />
+          </div>
+        </div>
+
+        {/* High-Fidelity Typography Header */}
+        <h2 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight uppercase leading-[0.95] text-zinc-900 mb-6 px-4">
+          Request a <br className="hidden sm:block" />
+          <span
+            className="text-transparent block sm:inline transition-all duration-700 select-none selection:bg-[#ec1313]/20"
+            style={{ WebkitTextStroke: "1.5px #18181b" }}
+          >
+            Consultation.
+          </span>
+        </h2>
+
+        {/* Clean, Descriptive Body Copy */}
+        <p className="max-w-xl mx-auto text-sm md:text-base text-zinc-600 font-medium leading-relaxed mb-12 px-2">
+          Institutions and organisations interested in hosting sessions or high-impact talks 
+          may request a strategic consultation session with LeadNex execution teams.
+        </p>
+
+        {/* Interactive Call-To-Action Wrapper */}
+        <div className="flex justify-center">
+          <motion.a
+            href="#consultation-form" // Update with your actual routing/form anchor element
             initial="initial"
             whileHover="hover"
-            className="cursor-pointer group"
+            whileTap="tap"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-4 px-8 py-4 md:px-10 md:py-5 rounded-full border border-zinc-900 bg-zinc-950 text-white shadow-md relative overflow-hidden group cursor-pointer transition-shadow duration-500 hover:shadow-[0_20px_40px_rgba(236,19,19,0.15)]"
           >
-            <div className="flex justify-center mb-8 md:mb-10">
-              <div className="size-14 md:size-16 rounded-full bg-white flex items-center justify-center shadow-sm border border-zinc-100 group-hover:border-[#ec1313] transition-colors">
-                <MessageSquare size={24} className="text-[#ec1313]" />
-              </div>
-            </div>
+            {/* Slide-in Background Layer Fill on Hover */}
+            <motion.div 
+              variants={{
+                initial: { y: "100%" },
+                hover: { y: "0%" }
+              }}
+              transition={{ type: "spring", damping: 25, stiffness: 120 }}
+              className="absolute inset-0 bg-[#ec1313] z-0"
+            />
 
-            <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tighter uppercase leading-tight mb-12 md:mb-16 text-zinc-900 px-4">
-              Request a <br className="hidden sm:block" />
-              <span
-                className="text-white transition-all duration-1000 block sm:inline"
-                style={{ WebkitTextStroke: "1px #e4e4e7" }}
-              >
-                Consultation.
-              </span>
-            </h2>
-            <p>Institutions and organisations interested in hosting sessions or talks may request a consultation with LeadNex.</p>
+            {/* CTA Label Copy */}
+            <span className="relative z-10 text-xs font-bold uppercase tracking-widest text-white transition-colors duration-300">
+              Request Engagement
+            </span>
 
-            <div className="flex justify-center">
-              <motion.div
-                variants={{
-                  initial: { scale: 1 },
-                  hover: {
-                    scale: 1.05,
-                    backgroundColor: "#ec1313",
-                    borderColor: "#ec1313",
-                  },
-                }}
-                className="w-full sm:w-auto px-10 py-5 md:px-12 md:py-6 rounded-full border border-zinc-200 flex items-center justify-center gap-4 group-hover:shadow-[0_0_50px_rgba(236,19,19,0.2)] transition-all duration-700"
-              >
-                <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-zinc-900 group-hover:text-white transition-colors">
-                  Request Engagement
-                </span>
-                <ArrowRight
-                  className="text-zinc-900 group-hover:text-white transition-colors duration-500"
-                  size={18}
-                />
-              </motion.div>
-            </div>
-          </motion.div>
+            {/* Micro-interaction Animated Icon Anchor */}
+            <motion.div
+              variants={{
+                initial: { x: 0 },
+                hover: { x: 4 }
+              }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="relative z-10 text-white"
+            >
+              <ArrowRight size={16} strokeWidth={2.5} />
+            </motion.div>
+          </motion.a>
         </div>
-      </section>
+      </div>
+    </section>
     </main>
   );
 };

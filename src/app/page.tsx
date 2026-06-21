@@ -15,6 +15,8 @@ import Link from "next/link";
 import Button from "@/ui/button"; // Assuming your existing UI component
 import { useContactForm } from "./ContextProvider";
 import { specializations } from "@/config";
+import { CheckoutButton } from "@/components/CheckoutButton";
+import { useRouter } from "next/navigation";
 
 // -------- Animation Orchestration --------
 const container: Variants = {
@@ -140,10 +142,14 @@ export default function LeadNexLanding() {
           {specializations.map((item) => (
             <WorkCard
               key={item.id}
+              id={item.id}
               title={item.title}
               desc={item.desc}
               Icon={item.icon}
               href={item.sourcePath}
+              originalPrice={item.originalPrice}
+              currentPrice={item.currentPrice}
+              amount={item.amount}
             />
           ))}
         </div>
@@ -167,7 +173,7 @@ export default function LeadNexLanding() {
                 className="relative aspect-[3/4] w-full overflow-hidden bg-zinc-100 shadow-2xl z-10"
               >
                 <Image
-                  src="/images/john_majel_p.webp"
+                  src="/images/visionary.webp"
                   alt="John Majel P - Founder & CEO"
                   fill
                   priority
@@ -350,50 +356,84 @@ export default function LeadNexLanding() {
 /** * SUB-COMPONENTS */
 
 interface WorkCardProps {
+  id: string;
   title: string;
   desc: string;
   Icon: LucideIcon;
   href: string;
+  originalPrice: string;
+  currentPrice: string;
+  amount: number;
 }
 
-function WorkCard({ title, desc, Icon, href }: WorkCardProps) {
+function WorkCard({ id, title, desc, Icon, href, originalPrice, currentPrice, amount }: WorkCardProps) {
+  const router = useRouter();
+
+  const handleCardClick = () => {
+    router.push(href);
+  };
+
   return (
-    <Link href={href} className="block h-full">
-      <motion.div
-        whileHover={{ y: -5 }}
-        className="group p-10 bg-white border border-zinc-100 relative h-full flex flex-col overflow-hidden transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] cursor-pointer"
-      >
-        <div className="absolute left-0 top-0 h-full w-[2px] bg-[#ec1313] scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top" />
+    <motion.div
+      onClick={handleCardClick}
+      whileHover={{ y: -5 }}
+      className="group p-10 bg-white border border-zinc-100 relative h-full flex flex-col overflow-hidden transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] cursor-pointer"
+    >
+      <div className="absolute left-0 top-0 h-full w-[2px] bg-[#ec1313] scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top" />
 
-        <div className="flex justify-between items-start mb-8">
-          <div className="size-12 rounded-lg bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:text-[#ec1313] transition-colors duration-500">
-            <Icon size={24} strokeWidth={1.5} />
-          </div>
-          <div className="text-zinc-200 group-hover:text-[#ec1313] transition-colors duration-500">
-            <ArrowRight
-              size={20}
-              className="-rotate-45 group-hover:rotate-0 transition-transform duration-500"
-            />
-          </div>
+      <div className="flex justify-between items-start mb-8">
+        <div className="size-12 rounded-lg bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:text-[#ec1313] transition-colors duration-500">
+          <Icon size={24} strokeWidth={1.5} />
         </div>
-
-        <div className="flex-grow">
-          <h3 className="text-xl font-bold text-zinc-900 uppercase tracking-tight mb-4">
-            {title}
-            <span className="text-[#ec1313]">.</span>
-          </h3>
-
-          <p className="text-sm text-zinc-500 font-light leading-relaxed italic mb-8">
-            {desc}
-          </p>
+        <div className="text-zinc-200 group-hover:text-[#ec1313] transition-colors duration-500">
+          <ArrowRight
+            size={20}
+            className="-rotate-45 group-hover:rotate-0 transition-transform duration-500"
+          />
         </div>
+      </div>
 
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400 group-hover:text-zinc-900 transition-colors">
-            Learn More
+      <div className="flex-grow">
+        <h3 className="text-xl font-bold text-zinc-900 uppercase tracking-tight mb-4">
+          {title}
+          <span className="text-[#ec1313]">.</span>
+        </h3>
+
+        <p className="text-sm text-zinc-500 font-light leading-relaxed italic mb-6">
+          {desc}
+        </p>
+      </div>
+
+      {/* Pricing Strikethrough Display Container */}
+      <div className="mb-6 pt-4 border-t border-zinc-100 flex flex-col items-start gap-1">
+        <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">
+          Exclusive Access Fee
+        </span>
+        <div className="flex items-baseline gap-3">
+          <span className="text-2xl font-black text-zinc-950 tracking-tight">
+            {currentPrice}
+          </span>
+          <span className="text-sm font-medium text-zinc-400 line-through opacity-70">
+            {originalPrice}
           </span>
         </div>
-      </motion.div>
-    </Link>
+      </div>
+
+      <div className="flex justify-between items-center gap-2 mt-auto">
+        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400 group-hover:text-zinc-900 transition-colors">
+          Learn More
+        </span>
+        {/* Stopped propagation so clicking button doesn't trigger card routing */}
+        <div onClick={(e) => e.stopPropagation()}>
+          <CheckoutButton
+            courseId={id}
+            amount={amount}
+            courseName={title}
+            description={desc}
+            size="sm"
+          />
+        </div>
+      </div>
+    </motion.div>
   );
 }

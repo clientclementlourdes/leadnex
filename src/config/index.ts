@@ -20,28 +20,37 @@ export const navigations = [
 
 export const specializations = [
   {
-    id: 1,
+    id: "POLITICAL_LEADERSHIP",
     title: "Political Mentorship Programme",
     icon: Megaphone,
     desc: "Confidential, founder-led programme for political leaders seeking strategic advice.",
     imagePath: "/images/political_leadership.webp",
     sourcePath: "political-leadership",
+    originalPrice: "₹25,000",
+    currentPrice: "₹15,000",
+    amount: 15000,
   },
   {
-    id: 2,
+    id: "PERSONAL_BRANDING",
     title: "Personal Branding",
     icon: ShieldCheck,
     desc: "Amplifying the voices of public personalities and influencers striving to reach the next level of recognition.",
     imagePath: "/images/leadership_communication.webp", 
     sourcePath: "personal-branding",
+    originalPrice: "₹18,000",
+    currentPrice: "₹10,000",
+    amount: 10000,
   },
   {
-    id: 3,
+    id: "GUIDANCE_MOTIVATION",
     title: "Guidance and Motivational Sessions",
     icon: Compass,
     desc: "From educational institutions to corporate workplaces, LeadNex delivers customized sessions for individuals navigating important life and career decisions.",
     imagePath: "/images/guidance&Motivation.webp",
     sourcePath: "guidance-motivation",
+    originalPrice: "₹9,000",
+    currentPrice: "₹5,000",
+    amount: 5000,
   },
 ];
 

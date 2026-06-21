@@ -1,4 +1,3 @@
-// utils/loadRazorpay.ts
 export const loadRazorpay = (): Promise<boolean> => {
   return new Promise((resolve) => {
     const script = document.createElement("script");
