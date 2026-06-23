@@ -56,7 +56,7 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
         process.env.EMAILJS_SERVICE_ID!,
         process.env.EMAILJS_TEMPLATE_ID!,
         templateParams,
-        process.env.EMAILJS_PUBLIC_KEY!
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       );
 
       showSuccessAlert(
