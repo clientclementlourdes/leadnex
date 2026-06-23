@@ -13,6 +13,7 @@ import {
   FileText,
   Loader2,
 } from "lucide-react";
+import emailjs from "@emailjs/browser";
 import { showErrorAlert, showSuccessAlert } from "@/utils/notifications";
 
 interface PopupProps {
@@ -43,28 +44,27 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const templateParams = {
+        user_name: formData.name,
+        user_email: formData.email,
+        user_contact: formData.contact,
+        selected_service: formData.service,
+        message: formData.description || "No description provided.",
+      };
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        showErrorAlert(
-          "Submission Failed",
-          data.error || "Failed to submit your inquiry. Please try again.",
-        );
-        return;
-      }
+      await emailjs.send(
+        process.env.EMAILJS_SERVICE_ID!,
+        process.env.EMAILJS_TEMPLATE_ID!,
+        templateParams,
+        process.env.EMAILJS_PUBLIC_KEY!
+      );
 
       showSuccessAlert(
         "Inquiry Submitted!",
-        "We've received your submission. Check your email for confirmation.",
+        "We've received your submission. Check your email for confirmation."
       );
 
-      // Reset form
+      // Reset form state cleanly
       setFormData({
         name: "",
         email: "",
@@ -76,10 +76,10 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
       // Close after brief delay
       setTimeout(() => onClose(), 2000);
     } catch (err: any) {
-      console.error("[CONTACT_FORM_CLIENT_ERROR]", err);
+      console.error("[CONTACT_FORM_EMAILJS_ERROR]", err);
       showErrorAlert(
-        "Connection Error",
-        "Failed to connect to server. Please check your connection and try again.",
+        "Submission Failed",
+        "Failed to dispatch dossier directly. Please check your network and try again."
       );
     } finally {
       setIsLoading(false);
@@ -121,6 +121,7 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
                 </h2>
               </div>
               <button
+                type="button"
                 title="Close Form"
                 onClick={onClose}
                 className="p-2 hover:bg-white/5 rounded-full transition-colors text-zinc-600 hover:text-white"
@@ -148,6 +149,7 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
                     <input
                       required
                       type="text"
+                      value={formData.name}
                       className="w-full bg-zinc-950 border border-zinc-800 p-4 pl-12 text-sm text-white focus:border-[#ec1313]/50 outline-none transition-all placeholder:text-zinc-700"
                       placeholder="Full Name"
                       onChange={(e) =>
@@ -170,6 +172,7 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
                     <input
                       required
                       type="tel"
+                      value={formData.contact}
                       className="w-full bg-zinc-950 border border-zinc-800 p-4 pl-12 text-sm text-white focus:border-[#ec1313]/50 outline-none transition-all placeholder:text-zinc-700"
                       placeholder="+91..."
                       onChange={(e) =>
@@ -194,6 +197,7 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
                     <input
                       required
                       type="email"
+                      value={formData.email}
                       className="w-full bg-zinc-950 border border-zinc-800 p-4 pl-12 text-sm text-white focus:border-[#ec1313]/50 outline-none transition-all placeholder:text-zinc-700"
                       placeholder="Official Email"
                       onChange={(e) =>
@@ -214,6 +218,7 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
                     />
                     <select
                       title="Select Services"
+                      value={formData.service}
                       className="w-full bg-zinc-950 border border-zinc-800 p-4 pl-12 text-sm text-white appearance-none focus:border-[#ec1313]/50 outline-none transition-all cursor-pointer"
                       onChange={(e) =>
                         setFormData({ ...formData, service: e.target.value })
@@ -246,6 +251,7 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
                   />
                   <textarea
                     rows={4}
+                    value={formData.description}
                     className="w-full bg-zinc-950 border border-zinc-800 p-4 pl-12 text-sm text-white focus:border-[#ec1313]/50 outline-none transition-all placeholder:text-zinc-700 resize-none font-mono leading-relaxed"
                     placeholder="Provide a high-level overview of your requirements..."
                     onChange={(e) =>
@@ -259,7 +265,7 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
               <div className="flex items-start gap-4 p-5 bg-zinc-950/50 border border-white/5 rounded-sm">
                 <ShieldCheck className="text-[#ec1313] shrink-0" size={18} />
                 <p className="text-[10px] text-zinc-500 font-light leading-relaxed">
-                  LeadNex adheres to a
+                  LeadNex adheres to a{" "}
                   <span className="text-zinc-200"> zero-retention policy</span>{" "}
                   for sensitive inquiries. Data is encrypted and dispatched
                   directly to senior partner oversight.
