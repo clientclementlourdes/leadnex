@@ -53,7 +53,6 @@ export const showNotification = (
 
     case AlertType.SUCCESS:
       toast.success(message, toastOptions);
-      console.log(`[PAYMENT_SUCCESS] ${message}`);
       break;
 
     case AlertType.WARNING:

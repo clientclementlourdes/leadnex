@@ -65,7 +65,6 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-console.log(process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, process.env.RAZORPAY_KEY_SECRET)
     // Initialize Razorpay instance
     const razorpay = new Razorpay({
       key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
@@ -75,8 +74,6 @@ console.log(process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, process.env.RAZORPAY_KEY_SE
     const currency = "INR";
     const receipt = `receipt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-    // Log order creation attempt
-    console.log(`[ORDER_CREATION] Amount: ${rawAmount}, Currency: ${currency}`);
     // Create order via Razorpay API
     const order = await razorpay.orders.create({
       amount: Math.round(rawAmount),
@@ -87,8 +84,6 @@ console.log(process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, process.env.RAZORPAY_KEY_SE
         timestamp: new Date().toISOString(),
       },
     });
-
-    console.log(`[ORDER_CREATED] Order ID: ${order.id}`);
 
     // Return order details to frontend (only necessary fields)
     return NextResponse.json(

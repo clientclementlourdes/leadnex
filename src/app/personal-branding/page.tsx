@@ -14,6 +14,7 @@ import {
   Tag,
 } from "lucide-react";
 import { CheckoutButton } from "@/components/CheckoutButton";
+import { useContactForm } from "../ContextProvider";
 
 /**
  * ANIMATION CONFIGURATION
@@ -102,7 +103,7 @@ const services = [
 ];
 const LeadNexBranding = () => {
   // Replace with your actual form trigger logic
-  const openContactForm = () => console.log("Form Opened");
+  const { openContactForm } = useContactForm();
 
   return (
     <main className="bg-[#F8F8F8] text-zinc-900 font-sans selection:bg-[#dc2626] selection:text-white antialiased overflow-x-hidden">

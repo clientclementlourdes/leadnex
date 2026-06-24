@@ -64,7 +64,6 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
         "We've received your submission. Check your email for confirmation."
       );
 
-      // Reset form state cleanly
       setFormData({
         name: "",
         email: "",
@@ -73,13 +72,12 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
         description: "",
       });
 
-      // Close after brief delay
       setTimeout(() => onClose(), 2000);
     } catch (err: any) {
       console.error("[CONTACT_FORM_EMAILJS_ERROR]", err);
       showErrorAlert(
-        "Submission Failed",
-        "Failed to dispatch dossier directly. Please check your network and try again."
+        "Submission Error",
+        "The system was unable to process your request. Please try again shortly or contact support if the issue persists."
       );
     } finally {
       setIsLoading(false);
@@ -89,42 +87,45 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-200 flex items-center justify-center px-6">
-          {/* Backdrop with Heavy Blur */}
+        <div className="fixed inset-0 z-[200] flex items-center justify-center px-4 sm:px-6">
+          {/* Backdrop with Heavy Blur and clean tint */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-zinc-950/90 backdrop-blur-2xl"
+            className="absolute inset-0 bg-zinc-900/40 backdrop-blur-xl"
           />
 
-          {/* Form Container */}
+          {/* Form Container (Professional Light Theme) */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            initial={{ opacity: 0, scale: 0.98, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 30 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-2xl bg-zinc-900 border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden"
+            exit={{ opacity: 0, scale: 0.98, y: 20 }}
+            transition={{ type: "spring", damping: 30, stiffness: 350 }}
+            className="relative w-full max-w-2xl bg-white border border-zinc-200 shadow-2xl rounded-xl overflow-hidden"
           >
-            {/* Design Accent Line */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-[#ec1313] to-transparent" />
+            {/* Premium Design Accent Line */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#ec1313] to-transparent" />
 
-            {/* Header: Identity Section */}
-            <div className="p-8 md:p-10 border-b border-white/5 flex justify-between items-start bg-zinc-900/50">
+            {/* Header Section */}
+            <div className="p-6 md:p-8 border-b border-zinc-100 flex justify-between items-start bg-zinc-50/70">
               <div>
-                <span className="text-[#ec1313] text-[9px] font-bold uppercase tracking-[0.5em] block mb-2">
-                  Protocol: Engagement
+                <span className="text-[#ec1313] text-xs font-bold uppercase tracking-widest block mb-1">
+                  Get Started
                 </span>
-                <h2 className="text-3xl font-bold tracking-tighter text-white uppercase leading-none">
-                  Initiate Advisory
+                <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-zinc-900">
+                  Request an Advisory Session
                 </h2>
+                <p className="text-sm text-zinc-500 mt-1.5">
+                  Fill out the details below to connect with our experts.
+                </p>
               </div>
               <button
                 type="button"
                 title="Close Form"
                 onClick={onClose}
-                className="p-2 hover:bg-white/5 rounded-full transition-colors text-zinc-600 hover:text-white"
+                className="p-2 hover:bg-zinc-200/60 rounded-full transition-colors text-zinc-400 hover:text-zinc-600 dynamic-touch"
               >
                 <X size={20} />
               </button>
@@ -133,25 +134,25 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
             {/* Form Body */}
             <form
               onSubmit={handleSubmit}
-              className="p-8 md:p-10 space-y-6 max-h-[70vh] overflow-y-auto custom-scrollbar"
+              className="p-6 md:p-8 space-y-6 max-h-[75vh] overflow-y-auto custom-scrollbar"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {/* Name */}
                 <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold ml-1">
-                    Identity
+                  <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold ml-0.5">
+                    Full Name
                   </label>
                   <div className="relative">
                     <User
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600"
-                      size={14}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
+                      size={16}
                     />
                     <input
                       required
                       type="text"
                       value={formData.name}
-                      className="w-full bg-zinc-950 border border-zinc-800 p-4 pl-12 text-sm text-white focus:border-[#ec1313]/50 outline-none transition-all placeholder:text-zinc-700"
-                      placeholder="Full Name"
+                      className="w-full bg-white border border-zinc-200 rounded-lg p-3.5 pl-12 text-sm text-zinc-900 focus:border-[#ec1313] focus:ring-4 focus:ring-[#ec1313]/10 outline-none transition-all placeholder:text-zinc-400 font-medium"
+                      placeholder="e.g. John Doe"
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
@@ -161,19 +162,19 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
 
                 {/* Contact */}
                 <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold ml-1">
-                    Secure Line
+                  <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold ml-0.5">
+                    Contact
                   </label>
                   <div className="relative">
                     <Phone
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600"
-                      size={14}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
+                      size={16}
                     />
                     <input
                       required
                       type="tel"
                       value={formData.contact}
-                      className="w-full bg-zinc-950 border border-zinc-800 p-4 pl-12 text-sm text-white focus:border-[#ec1313]/50 outline-none transition-all placeholder:text-zinc-700"
+                      className="w-full bg-white border border-zinc-200 rounded-lg p-3.5 pl-12 text-sm text-zinc-900 focus:border-[#ec1313] focus:ring-4 focus:ring-[#ec1313]/10 outline-none transition-all placeholder:text-zinc-400 font-medium"
                       placeholder="+91..."
                       onChange={(e) =>
                         setFormData({ ...formData, contact: e.target.value })
@@ -184,21 +185,22 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
               </div>
 
               {/* Email & Service Row */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {/* Email */}
                 <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold ml-1">
+                  <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold ml-0.5">
                     Email
                   </label>
                   <div className="relative">
                     <Mail
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600"
-                      size={14}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
+                      size={16}
                     />
                     <input
                       required
                       type="email"
                       value={formData.email}
-                      className="w-full bg-zinc-950 border border-zinc-800 p-4 pl-12 text-sm text-white focus:border-[#ec1313]/50 outline-none transition-all placeholder:text-zinc-700"
+                      className="w-full bg-white border border-zinc-200 rounded-lg p-3.5 pl-12 text-sm text-zinc-900 focus:border-[#ec1313] focus:ring-4 focus:ring-[#ec1313]/10 outline-none transition-all placeholder:text-zinc-400 font-medium"
                       placeholder="Official Email"
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
@@ -207,25 +209,31 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
                   </div>
                 </div>
 
+                {/* Service Select */}
                 <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold ml-1">
-                    Target
+                  <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold ml-0.5">
+                    Target Service
                   </label>
                   <div className="relative">
                     <Briefcase
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600"
-                      size={14}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
+                      size={16}
                     />
                     <select
                       title="Select Services"
                       value={formData.service}
-                      className="w-full bg-zinc-950 border border-zinc-800 p-4 pl-12 text-sm text-white appearance-none focus:border-[#ec1313]/50 outline-none transition-all cursor-pointer"
+                      className="w-full bg-white border border-zinc-200 rounded-lg p-3.5 pl-12 pr-10 text-sm text-zinc-900 focus:border-[#ec1313] focus:ring-4 focus:ring-[#ec1313]/10 outline-none transition-all cursor-pointer font-medium appearance-none bg-[url('data:image/svg+xml;bs4,')] bg-no-repeat"
+                      style={{
+                        backgroundImage: `url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%2371717a' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E")`,
+                        backgroundPosition: "right 1rem center",
+                        backgroundSize: "1.25rem",
+                      }}
                       onChange={(e) =>
                         setFormData({ ...formData, service: e.target.value })
                       }
                     >
                       {services.map((s) => (
-                        <option key={s} value={s}>
+                        <option key={s} value={s} className="text-zinc-900 bg-white">
                           {s}
                         </option>
                       ))}
@@ -234,25 +242,25 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
                 </div>
               </div>
 
-              {/* Description: Briefing Note (Optional) */}
+              {/* Description */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center ml-1">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold">
-                    Briefing Note
+                <div className="flex justify-between items-center ml-0.5">
+                  <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold">
+                    Description
                   </label>
-                  <span className="text-[8px] text-zinc-700 font-mono tracking-widest uppercase italic">
+                  <span className="text-[9px] text-zinc-400 font-mono tracking-widest uppercase italic">
                     Optional
                   </span>
                 </div>
                 <div className="relative">
                   <FileText
-                    className="absolute left-4 top-5 text-zinc-600"
-                    size={14}
+                    className="absolute left-4 top-4 text-zinc-400"
+                    size={16}
                   />
                   <textarea
                     rows={4}
                     value={formData.description}
-                    className="w-full bg-zinc-950 border border-zinc-800 p-4 pl-12 text-sm text-white focus:border-[#ec1313]/50 outline-none transition-all placeholder:text-zinc-700 resize-none font-mono leading-relaxed"
+                    className="w-full bg-white border border-zinc-200 rounded-lg p-3.5 pl-12 text-sm text-zinc-900 focus:border-[#ec1313] focus:ring-4 focus:ring-[#ec1313]/10 outline-none transition-all placeholder:text-zinc-400 resize-none font-sans leading-relaxed"
                     placeholder="Provide a high-level overview of your requirements..."
                     onChange={(e) =>
                       setFormData({ ...formData, description: e.target.value })
@@ -261,31 +269,20 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
                 </div>
               </div>
 
-              {/* Privacy Protocol Footer */}
-              <div className="flex items-start gap-4 p-5 bg-zinc-950/50 border border-white/5 rounded-sm">
-                <ShieldCheck className="text-[#ec1313] shrink-0" size={18} />
-                <p className="text-[10px] text-zinc-500 font-light leading-relaxed">
-                  LeadNex adheres to a{" "}
-                  <span className="text-zinc-200"> zero-retention policy</span>{" "}
-                  for sensitive inquiries. Data is encrypted and dispatched
-                  directly to senior partner oversight.
-                </p>
-              </div>
-
-              {/* Submit Action */}
+              {/* Action Button */}
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-16 bg-[#ec1313] hover:bg-[#c11010] disabled:bg-[#ec1313]/50 disabled:cursor-not-allowed text-white text-[10px] font-bold uppercase tracking-[0.4em] flex items-center justify-center gap-3 transition-all duration-300 group shadow-lg shadow-[#ec1313]/10"
+                className="w-full h-14 rounded-lg bg-[#ec1313] hover:bg-[#c11010] disabled:bg-[#ec1313]/50 disabled:cursor-not-allowed text-white text-xs font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-3 transition-all duration-200 group shadow-lg shadow-[#ec1313]/10 active:scale-[0.99]"
               >
                 {isLoading ? (
                   <>
                     <Loader2 size={16} className="animate-spin" />
-                    Sending...
+                    Sending Inquiry...
                   </>
                 ) : (
                   <>
-                    Dispatch Dossier
+                    Submit Request
                     <ArrowRight
                       size={16}
                       className="group-hover:translate-x-1 transition-transform"

@@ -103,11 +103,6 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      // Signature is valid
-      console.log(
-        `[VERIFY_SUCCESS] Payment verified. Order: ${razorpay_order_id}, Payment: ${razorpay_payment_id}`,
-      );
-
       return NextResponse.json(
         {
           verified: true,
