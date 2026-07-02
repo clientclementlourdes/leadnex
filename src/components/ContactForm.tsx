@@ -61,7 +61,7 @@ const ContactForm = ({ isOpen, onClose }: PopupProps) => {
 
       showSuccessAlert(
         "Inquiry Submitted!",
-        "We've received your submission. Check your email for confirmation."
+        "We've received your submission. Our team will get back to you shortly."
       );
 
       setFormData({
